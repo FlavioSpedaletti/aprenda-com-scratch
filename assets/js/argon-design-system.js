@@ -37,8 +37,7 @@ var $tagsinput = $('.tagsinput');
   if (isWindows) {
     // if we are on windows OS we activate the perfectScrollbar function
 
-    $('.wrapper .login-page, .register-page, .card').perfectScrollbar();
-
+    var ps1 = new PerfectScrollbar('.wrapper');
 
     if ($('.tab-content .table-responsive').length != 0) {
 
