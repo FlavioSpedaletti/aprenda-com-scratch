@@ -44,13 +44,8 @@ gulp.task('min-css', function() {
     .pipe(gulp.dest(paths.src.css))
 });
 
-// All CSS
-gulp.task('css',
-  ['compile-css', 'min-css']
-);
-
 // Minify JS
-gulp.task('js', function() {
+gulp.task('min-js', function() {
   return gulp.src([
           paths.src.js + '/argon-design-system.js'
       ])
@@ -102,7 +97,12 @@ gulp.task('copy-root', function() {
   .pipe(gulp.dest(paths.dist.base))
 });
 
+// Default
+gulp.task('default',
+  runSequence(['compile-css', 'min-css', 'min-js'])
+);
+
 // Build
 gulp.task('dist',
-  runSequence(['clean-dist', 'js', 'css', 'copy-assets', 'copy-css', 'copy-js', 'copy-root'])
+  runSequence(['clean-dist', 'compile-css', 'min-css', 'min-js', 'copy-assets', 'copy-css', 'copy-js', 'copy-root'])
 );

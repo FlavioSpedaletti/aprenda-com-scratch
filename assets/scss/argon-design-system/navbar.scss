@@ -29,7 +29,7 @@
     letter-spacing: .05px;
 
     img {
-        height: 30px;
+        height: 50px;
     }
 }
 
@@ -208,6 +208,19 @@
 }
 
 .bg-white {
+  .navbar-toggler-icon {
+    background-image: $navbar-light-toggler-icon-bg
+
+  }
+}
+
+.navbar-interns {
+  width: 100%;
+  z-index: 100;
+  background-color: #7795f8 !important;
+  border: 0;
+  box-shadow: none;
+
   .navbar-toggler-icon {
     background-image: $navbar-light-toggler-icon-bg
 
