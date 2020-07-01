@@ -8,6 +8,8 @@ var uglify = composer(uglifyEs, console);
 var autoprefixer = require('gulp-autoprefixer');
 var del = require('del');
 var runSequence = require('run-sequence');
+var browserSync = require('browser-sync').create();
+var reload = browserSync.reload;
 
 var paths = {
   dist: {
@@ -32,6 +34,9 @@ gulp.task('compile-css', function() {
     .pipe(sass().on('error', sass.logError))
     .pipe(autoprefixer())
     .pipe(gulp.dest(paths.src.css))
+    .pipe(browserSync.reload({
+      stream: true
+   }))
 });
 
 // Minify CSS
@@ -42,6 +47,9 @@ gulp.task('min-css', function() {
     .pipe(cleanCss())
     .pipe(rename({ suffix: '.min' }))
     .pipe(gulp.dest(paths.src.css))
+    .pipe(browserSync.reload({
+      stream: true
+   }))
 });
 
 // Minify JS
@@ -52,6 +60,9 @@ gulp.task('min-js', function() {
       .pipe(uglify())
       .pipe(rename({ suffix: '.min' }))
       .pipe(gulp.dest(paths.src.js))
+      .pipe(browserSync.reload({
+        stream: true
+     }))
 });
 
 // Clean
@@ -98,11 +109,29 @@ gulp.task('copy-root', function() {
 });
 
 // Default
-gulp.task('default',
-  runSequence(['compile-css', 'min-css', 'min-js'])
-);
+gulp.task('default', function(callback) {
+  runSequence('compile-css',
+              ['min-css', 'min-js'],
+              callback);
+});
+
+// Watch
+gulp.task('watch', function(){
+  browserSync.init({
+    server: {
+        baseDir: "./"
+    }
+  });
+
+  gulp.watch(['assets/**/*.scss', 'assets/js/**/!(*.min)*.js'], ['default']);
+  gulp.watch("*.html").on("change", reload);
+});
 
 // Build
-gulp.task('dist',
-  runSequence(['clean-dist', 'compile-css', 'min-css', 'min-js', 'copy-assets', 'copy-css', 'copy-js', 'copy-root'])
-);
+gulp.task('dist', function(callback) {
+  runSequence('clean-dist',
+              'compile-css',
+              ['min-css', 'min-js'],
+              ['copy-assets', 'copy-css', 'copy-js', 'copy-root'],
+              callback);
+});
