@@ -22,7 +22,7 @@
 // Hero sections
 .section-hero {
     @include media-breakpoint-up(md) {
-        min-height: 500px;
+        min-height: 400px;
     }
 }
 
@@ -395,7 +395,7 @@
         :nth-child(4) {
             width: 60%;
             bottom: 0;
-            right: -16.66666%;
+            right: -25.66666%;
             opacity: .6;
         }
 
