@@ -10,6 +10,7 @@ var del = require('del');
 var runSequence = require('run-sequence');
 var browserSync = require('browser-sync').create();
 var reload = browserSync.reload;
+const fileinclude = require('gulp-file-include');
 
 var paths = {
   dist: {
@@ -27,6 +28,16 @@ var paths = {
       scss: 'assets/scss/*.scss'
   }
 }
+
+// Replace Includes
+gulp.task('file-include', function() {
+  gulp.src(paths.src.html)
+    .pipe(fileinclude({
+      prefix: '@@',
+      basepath: '@file'
+    }))
+    .pipe(gulp.dest('./'));
+});
 
 // Compile SCSS
 gulp.task('compile-css', function() {
@@ -123,13 +134,14 @@ gulp.task('watch', function(){
     }
   });
 
-  gulp.watch(['assets/**/*.scss', 'assets/js/**/!(*.min)*.js'], ['default']);
-  gulp.watch("*.html").on("change", reload);
+  gulp.watch(['html-includes/**/*.html', 'assets/**/*.scss', 'assets/js/**/!(*.min)*.js'], ['default']);
+  gulp.watch(paths.src.html).on("change", reload);
 });
 
 // Build
 gulp.task('dist', function(callback) {
   runSequence('clean-dist',
+              /*'file-include',*/
               'compile-css',
               ['min-css', 'min-js'],
               ['copy-assets', 'copy-css', 'copy-js', 'copy-root'],
