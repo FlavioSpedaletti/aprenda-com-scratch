@@ -12643,7 +12643,8 @@ button.section-darker:focus {
   background-size: 100% 0.2em;
   background-position: 0 88%;
   -webkit-transition: background-size 0.25s ease-in;
-  transition: background-size 0.25s ease-in; }
+  transition: background-size 0.25s ease-in;
+  font-weight: bolder; }
   .text-underline-magical:hover {
     background-size: 100% 28%; }
 
