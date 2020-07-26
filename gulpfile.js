@@ -126,7 +126,7 @@ gulp.task('default', function(callback) {
               callback);
 });
 
-// Watch
+// Watch -> para debugar
 gulp.task('watch', function(){
   browserSync.init({
     server: {
@@ -138,7 +138,7 @@ gulp.task('watch', function(){
   gulp.watch(paths.src.html).on("change", reload);
 });
 
-// Build
+// Build -> para publicar
 gulp.task('dist', function(callback) {
   runSequence('clean-dist',
               /*'file-include',*/
